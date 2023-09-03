@@ -1,8 +1,13 @@
-from django.contrib import admin
-from django.urls import include, path
+# birthday/urls.py
+from django.urls import path
+
+from . import views
+
+app_name = 'birthday'
 
 urlpatterns = [
-    path('', include('pages.urls')),
-    path('admin/', admin.site.urls),
-    path('birthday/', include('birthday.urls')),
+    path('', views.birthday, name='create'),
+    path('list/', views.birthday_list, name='list'),
+    path('<int:pk>/edit/', views.birthday, name='edit'),
+    path('<int:pk>/delete/', views.delete_birthday, name='delete'),
 ]
