@@ -1,13 +1,12 @@
-# birthday/urls.py
-from django.urls import path
-
-from . import views
+from django.conf import settings
+from django.conf.urls.static import static
+from django.urls import path, include
+from django.contrib import admin
 
 app_name = 'birthday'
 
 urlpatterns = [
-    path('', views.birthday, name='create'),
-    path('list/', views.birthday_list, name='list'),
-    path('<int:pk>/edit/', views.birthday, name='edit'),
-    path('<int:pk>/delete/', views.delete_birthday, name='delete'),
-]
+    path('', include('pages.urls')),
+    path('admin/', admin.site.urls),
+    path('birthday/', include('birthday.urls')),
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
