@@ -7,6 +7,13 @@ from .models import Birthday
 from .utils import calculate_birthday_countdown
 
 
+class BirthdayMixin:
+    model = Birthday
+    form_class = BirthdayForm
+    template_name = 'birthday/birthday.html'
+    success_url = reverse_lazy('birthday:list')
+
+
 class BirthdayListView(ListView):
     # Указываем модель, с которой работает CBV...
     model = Birthday
@@ -16,25 +23,12 @@ class BirthdayListView(ListView):
     paginate_by = 10
 
 
-class BirthdayCreateView(CreateView):
-    # Указываем модель, с которой работает CBV...
-    model = Birthday
-    # Этот класс сам может создать форму на основе модели!
-    # Нет необходимости отдельно создавать форму через ModelForm.
-    # Указываем имя формы:
-    form_class = BirthdayForm
-    # Явным образом указываем шаблон:
-    template_name = 'birthday/birthday.html'
-    # Указываем namespace:name страницы, куда будет перенаправлен пользователь
-    # после создания объекта:
-    success_url = reverse_lazy('birthday:list')
+class BirthdayCreateView(BirthdayMixin, CreateView):
+    pass
 
 
-class BirthdayUpdateView(UpdateView):
-    model = Birthday
-    form_class = BirthdayForm
-    template_name = 'birthday/birthday.html'
-    success_url = reverse_lazy('birthday:list')
+class BirthdayUpdateView(BirthdayMixin, UpdateView):
+    pass
 
 
 # Добавим опциональный параметр pk.
